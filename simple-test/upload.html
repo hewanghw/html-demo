@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件上传示例</title>
+    <!-- 引入 Axios 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function fileUpload(){
+
+           // 获取文件输入元素
+           const fileInput = document.getElementById('fileUpload')
+
+           // 获取待上传的文件
+           const files = fileInput.files
+
+           if (!files.length) {
+                alert('请选择一个文件!');
+                return;
+            }
+            // 创建FormData对象
+            const formData = new FormData()
+            formData.append('file', files[0]) // 'file'是服务器端期望的字段名
+            
+            // 使用Axios发送POST请求
+            axios.post('https://your-server.com/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(response => {
+                console.log('上传成功:', response.data);
+                alert('文件上传成功！');
+            })
+            .catch(error => {
+                console.error('上传失败:', error);
+                alert('文件上传失败，请重试！');
+            });
+        }
+    </script>
+</head>
+<body>
+    
+    <input id="fileUpload" type="file" multiple ></input>
+    <hr>
+    <div>
+        <button onclick="fileUpload()">上传文件</button>
+    </div>
+
+
+
+</body>
+</html>
